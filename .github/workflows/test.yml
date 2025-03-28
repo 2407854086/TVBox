@@ -39,6 +39,9 @@ jobs:
           mkdir -p ${{ github.workspace }}/apk/
           cp app/build/outputs/apk/release/*.apk ${{ github.workspace }}/apk/
 
+      - name: List files in apk directory (for debugging)
+        run: ls -la ${{ github.workspace }}/apk/
+
       - name: Upload App To Artifact
         uses: actions/upload-artifact@v3
         with:
