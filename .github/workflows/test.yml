@@ -43,7 +43,7 @@ jobs:
         run: ls -la ${{ github.workspace }}/apk/
 
       - name: Upload App To Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@latest
         with:
           name: com.github.tvbox.osc
           path: ${{ github.workspace }}/apk/*.apk
