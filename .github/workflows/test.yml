@@ -22,9 +22,18 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Increase Gradle memory
+        run: echo "org.gradle.jvmargs=-Xmx4g -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8" >> gradle.properties
+
+      - name: Clean Gradle cache
+        run: ./gradlew cleanBuildCache
+
+      - name: Clean project
+        run: ./gradlew clean
+
       - name: Build With Gradle
         run: |
-          ./gradlew assembleRelease --build-cache --parallel --daemon --warning-mode all
+          ./gradlew assembleRelease --build-cache --parallel --daemon --warning-mode all --stacktrace --info
 
       - name: Check if APK was built successfully
         id: check_apk
@@ -43,7 +52,7 @@ jobs:
         run: ls -la ${{ github.workspace }}/apk/
 
       - name: Upload App To Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: com.github.tvbox.osc
           path: ${{ github.workspace }}/apk/*.apk
